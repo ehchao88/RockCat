@@ -1,5 +1,7 @@
 #sets up a small table to hold user data
 
+import time
+from datetime import datetime
 from flask import Flask, redirect, url_for, render_template, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user,\
@@ -12,8 +14,8 @@ app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
     'twitter': {
-        'id': '<INSERT TWITTER KEY>',
-        'secret': '<INSERT TWITTER SECRET>'
+        'id': '<id>',
+        'secret': '<secret>'
     }
 }
 
@@ -32,6 +34,7 @@ class User(UserMixin, db.Model):
     tf = db.Column(db.Boolean())
     num_days_set = db.Column(db.Integer())
     num_days_work = db.Column(db.Integer())
+    time_set = db.Column(db.DateTime())
 
 
 
@@ -69,8 +72,22 @@ def set_goal():
             user_id = current_user.get_id()
             user = User.query.filter_by(id=user_id).first()
             user.num_days_set = num_days_set
+            user.time_set = datetime.now()
+            print(user.time_set)
             db.session.commit()
     return num_days_set
+
+@app.route('/info', methods=['GET'])
+def send_data():
+    if current_user.is_authenticated:
+        user_id = current_user.get_id()
+        user = User.query.filter_by(id=user_id).first()
+        if (user.time_set-datetime.now()).days >= 7:
+            return "Reset goalss"
+        else:
+             return "view goalss"
+        #if(user.time_set> 168:00:00)
+    return "NOT LOGGED IN BITCH"    
 
 @app.route('/authorize/<provider>')
 def oauth_authorize(provider):
