@@ -3,6 +3,19 @@ body {
     background-color: #DDDEF5;
     font-family: 'Chicle', cursive;
 }
+#set_card{
+    display: inline-block;
+    margin: auto;
+    padding: 50px;
+    background-color: #99CCCC;
+    border-radius: 10%;
+    
+}
+#label_times{
+    color: #575252;
+    margin-bottom: 20px; 
+    font-size: 1.7em;
+}
 
 .form_login {
     display: inline-block;
@@ -35,21 +48,26 @@ body {
 }
 input[type=text], input[type=password], input[type=number], select {
     border: 1px solid #ccc;
-    width: 115%;
+    width: 75%;
     height: 40px;
     text-align: left;
     border-radius: 15px;
     
 }
 
-input[type=submit]{
-    width: 120%;
+input[type=submit], .white_submit{
+    width: 50%;
     height: 40px;
     top: 30%;
+    margin-top: 50px;
     /* height: 50%; */
-    background-color: turquoise;
+    background-color: white;
     border: none;
     border-radius: 15px;
+    font-family: 'Chicle', cursive;
+    font-size: 1.5em;
+    color: #575252;
+
 }
 
 button {
