@@ -24,10 +24,15 @@ lm.login_view = 'index'
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     social_id = db.Column(db.String(64), nullable=False, unique=True)
     nickname = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(64), nullable=True)
+    score = db.Column(db.Integer())
+    tf = db.Column(db.Boolean())
+    num_days_set = db.Column(db.Integer())
+    num_days_work = db.Column(db.Integer())
+
 
 
 @lm.user_loader
