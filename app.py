@@ -50,6 +50,10 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+@app.route('/set', methods=['GET', 'POST'])
+def set_goal():
+    if request.method == 'POST':
+        num_days_set = request.form.get('test')
 
 @app.route('/authorize/<provider>')
 def oauth_authorize(provider):
@@ -75,6 +79,9 @@ def oauth_callback(provider):
         db.session.commit()
     login_user(user, True)
     return redirect(url_for('index'))
+
+
+
 
 
 if __name__ == '__main__':
