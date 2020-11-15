@@ -12,8 +12,8 @@ app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
     'twitter': {
-        'id': '<Insert credentials>',
-        'secret': '<Insert credentials>'
+        'id': '<INSERT TWITTER KEY>',
+        'secret': '<INSERT TWITTER SECRET>'
     }
 }
 
@@ -28,7 +28,7 @@ class User(UserMixin, db.Model):
     social_id = db.Column(db.String(64), nullable=False, unique=True)
     nickname = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(64), nullable=True)
-    score = db.Column(db.Integer())
+    score = db.Column(db.Integer(), default=0)
     tf = db.Column(db.Boolean())
     num_days_set = db.Column(db.Integer())
     num_days_work = db.Column(db.Integer())
@@ -45,6 +45,17 @@ def index():
     return render_template('index.html')
 
 
+#route for incrementing your points
+@app.route('/point', methods=['POST'])
+def add_point():
+    if current_user.is_authenticated:
+        user_id = current_user.get_id()
+        user = User.query.filter_by(id=user_id).first()
+        user.score = User.score + 1
+        print(user.score)
+        db.session.commit()
+    return redirect('/')
+
 @app.route('/logout')
 def logout():
     logout_user()
@@ -53,7 +64,13 @@ def logout():
 @app.route('/set', methods=['GET', 'POST'])
 def set_goal():
     if request.method == 'POST':
-        num_days_set = request.form.get('test')
+        if current_user.is_authenticated:
+            num_days_set = request.form.get('test')
+            user_id = current_user.get_id()
+            user = User.query.filter_by(id=user_id).first()
+            user.num_days_set = num_days_set
+            db.session.commit()
+    return num_days_set
 
 @app.route('/authorize/<provider>')
 def oauth_authorize(provider):
@@ -79,9 +96,6 @@ def oauth_callback(provider):
         db.session.commit()
     login_user(user, True)
     return redirect(url_for('index'))
-
-
-
 
 
 if __name__ == '__main__':
