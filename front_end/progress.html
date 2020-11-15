@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<title>Progress</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="progress.css">
+<link href="https://fonts.googleapis.com/css2?family=Chicle" rel="stylesheet">
+
+
+<body>  
+    <h1> RockCat </h1>
+
+    <!-- Text -->
+    <div class="text" id="text">0%</div>
+    <!-- End Of Text -->
+    <!-- Container -->
+    <div class="container">
+        <div class="bar-container">
+        <div class="bar" id="bar"></div>
+        </div>
+    <div id = "pics">
+    <!-- End Of Container -->
+        <img src="cat.png" style="width:50%; height:auto; text-align: center;">    
+        <!--  Button  -->
+        <h3> Day X: Did you complete your exercise today? </h3>
+        <button class="btn" type="button" id="btn">Yessir</button> 
+        <!--   End Of Button  -->
+    </div>
+</body>
+
+<script>
+    var btn = document.getElementById('btn');
+var bar = document.getElementById('bar');
+var txt = document.getElementById('text');
+var count = 0;
+// Listen for an event on the button
+// Increase the width of the bar by 10 percent(10%)
+btn.addEventListener('click', ()=>{
+  bar.style.width = count + '%';
+  txt.innerHTML = count + '%';
+  if(count === 100){
+    count = 0;  
+  }
+  else {
+      count = count + 10;
+  }
+});
+
+</script>
+
+</html>
