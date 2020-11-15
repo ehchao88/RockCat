@@ -1,6 +1,6 @@
 #sets up a small table to hold user data
 
-from flask import Flask, redirect, url_for, render_template, flash
+from flask import Flask, redirect, url_for, render_template, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user,\
     current_user
@@ -12,8 +12,8 @@ app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
     'twitter': {
-        'id': 'Zj2IgPStSbvCFqlCoB3XiW6Ww',
-        'secret': '1LdMorYlIouxOyClWbyXZkKGN8P2rULTk1p26h2dN1yR79T1IJ'
+        'id': '<INSERT TWITTER KEY>',
+        'secret': '<INSERT TWITTER SECRET>'
     }
 }
 
@@ -64,7 +64,13 @@ def logout():
 @app.route('/set', methods=['GET', 'POST'])
 def set_goal():
     if request.method == 'POST':
-        num_days_set = request.form.get('test')
+        if current_user.is_authenticated:
+            num_days_set = request.form.get('test')
+            user_id = current_user.get_id()
+            user = User.query.filter_by(id=user_id).first()
+            user.num_days_set = num_days_set
+            db.session.commit()
+    return num_days_set
 
 @app.route('/authorize/<provider>')
 def oauth_authorize(provider):
@@ -90,9 +96,6 @@ def oauth_callback(provider):
         db.session.commit()
     login_user(user, True)
     return redirect(url_for('index'))
-
-
-
 
 
 if __name__ == '__main__':
