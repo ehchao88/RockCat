@@ -12,8 +12,7 @@ app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
     'twitter': {
-        'id': '<Insert credentials>',
-        'secret': '<Insert credentials>'
+        
     }
 }
 
@@ -39,6 +38,10 @@ def load_user(id):
 def index():
     return render_template('index.html')
 
+@app.route('/point', methods=['POST'])
+def add_point():
+    if current_user.is_authenticated:
+        load
 
 @app.route('/logout')
 def logout():
