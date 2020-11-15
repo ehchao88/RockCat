@@ -1,0 +1,94 @@
+body {
+    text-align: center;
+    background-color: #DDDEF5;
+    font-family: 'Chicle', cursive;
+}
+#set_card{
+    display: inline-block;
+    margin: auto;
+    padding: 50px;
+    background-color: #99CCCC;
+    border-radius: 10%;
+    
+}
+#label_times{
+    color: #575252;
+    margin-bottom: 20px; 
+    font-size: 1.7em;
+}
+
+.form_login {
+    display: inline-block;
+    margin: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.form_signup{
+    display: inline-block;
+    margin: auto;
+}
+
+.splash_nav {
+    display: inline-block;
+    margin: auto;
+}
+
+.logo{
+    display: inline-block;
+    margin: auto;
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    /* height: 50%;
+    width: 50%; */
+    transform: translate(-50%, -50%);
+}
+input[type=text], input[type=password], input[type=number], select {
+    border: 1px solid #ccc;
+    width: 75%;
+    height: 40px;
+    text-align: left;
+    border-radius: 15px;
+    
+}
+
+input[type=submit], .white_submit{
+    width: 50%;
+    height: 40px;
+    top: 30%;
+    margin-top: 50px;
+    /* height: 50%; */
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+    font-family: 'Chicle', cursive;
+    font-size: 1.5em;
+    color: #575252;
+
+}
+
+button {
+    width: 120%;
+    height: 40px;
+    top: 30%;
+    /* height: 50%; */
+    background-color: #99CCCC;
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 5%;
+    font-family: 'Chicle', cursive;
+    font-size: 1.5em;
+}
+
+#welcome {
+    font-family: 'Chicle', cursive;
+    font-size: 3em;
+}
+#intro{
+    font-family: 'Chicle', cursive;
+    color: #625D5D;
+    font-size: 2em;
+}
