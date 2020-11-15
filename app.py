@@ -14,8 +14,8 @@ app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
     'twitter': {
-        'id': '<id>',
-        'secret': '<secret>'
+        'id': '<INSERT KEY>',
+        'secret': '<INSERT SECRET>'
     }
 }
 
@@ -32,10 +32,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), nullable=True)
     score = db.Column(db.Integer(), default=0)
     tf = db.Column(db.Boolean())
-    num_days_set = db.Column(db.Integer())
-    num_days_work = db.Column(db.Integer())
-    time_set = db.Column(db.DateTime())
-
+    num_days_set = db.Column(db.Integer(), default = 0)
+    num_days_work = db.Column(db.Integer(), default=0)
+    time_set = db.Column(db.DateTime(), default=datetime.now())
 
 
 @lm.user_loader
@@ -45,7 +44,27 @@ def load_user(id):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        user_id = current_user.get_id()
+        user = User.query.filter_by(id=user_id).first()
+        print(user.nickname)
+        print(user.score)
+        print("Plz for the love of god" + str(user.num_days_set))
+        if user.num_days_set == 0 or (user.time_set-datetime.now()).days >= 7 or user.num_days_work >= user.num_days_set:
+            if (user.time_set-datetime.now()).days >= 7:
+                user.score = User.score - 1
+                db.session.commit()
+            if user.num_days_work >= user.num_days_set:
+                return render_template("completed.html")
+            return render_template('set_goal.html')
+        else:
+            num_days_work = 0
+            if user.num_days_work != None:
+                num_days_work = user.num_days_work
+            print(num_days_work)
+            return render_template("progress.html", num_days_set=user.num_days_set, num_days_work=num_days_work)
+        #if(user.time_set> 168:00:00)
+    return render_template('splash.html')
 
 
 #route for incrementing your points
@@ -55,9 +74,9 @@ def add_point():
         user_id = current_user.get_id()
         user = User.query.filter_by(id=user_id).first()
         user.score = User.score + 1
-        print(user.score)
+        user.num_days_work = User.num_days_work + 1
         db.session.commit()
-    return redirect('/')
+    return str(user.score)
 
 @app.route('/logout')
 def logout():
@@ -68,14 +87,18 @@ def logout():
 def set_goal():
     if request.method == 'POST':
         if current_user.is_authenticated:
-            num_days_set = request.form.get('test')
+            print(request.form)
+            num_days_set = request.form.get('time')
+            print("HELLO" + str(num_days_set))
             user_id = current_user.get_id()
             user = User.query.filter_by(id=user_id).first()
+            print(num_days_set)
             user.num_days_set = num_days_set
+            user.num_days_work = 0
             user.time_set = datetime.now()
             print(user.time_set)
             db.session.commit()
-    return num_days_set
+    return redirect("/")
 
 @app.route('/info', methods=['GET'])
 def send_data():

@@ -2,24 +2,21 @@
 <html>
     <head>
         <link href="https://fonts.googleapis.com/css2?family=Chicle" rel="stylesheet">
-        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
         <title>RockCat</title>
     </head>
     <body>
         <div id = "headings"> 
             <h1 id="welcome">RockCat</h1>
             <h2 id="intro">unlock your cat with exercise before it becomes a rock</h2>
-            <img src="rock.png" style="width:15%; height:auto; ">    
-            <img src="cat.png" style="width:15%; height:auto; ">
+            <img src="{{ url_for('static', filename='rock.png') }}" style="width:15%; height:auto; ">    
+            <img src="{{ url_for('static', filename='cat.png') }}" style="width:15%; height:auto; ">
         </div>
         
         <div>
             <div id="set_card">
                 <form method="post">
-                    <h2>You completed your goal! </h2>
-                    <img src="cat.png" style="width:15%; height:auto; ">
-
-                    <label id="label_times" for="time">Set another:</label>
+                    <label id="label_times" for="time">Change your weekly exercise goal:</label>
                     <select id="time" name="time">
                         <option value="1">1 time</option>
                         <option value="2">2 times</option>

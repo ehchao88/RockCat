@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Chicle" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+        <title>RockCat</title>
+    </head>
+    <body>
+        <div id = "headings"> 
+            <h1 id="welcome">RockCat</h1>
+            <h2 id="intro">unlock your cat with exercise before it becomes a rock</h2>
+            <img src="{{ url_for('static', filename='rock.png') }}" style="width:15%; height:15%; ">    
+            <img src="{{ url_for('static', filename='cat.png') }}" style="width:15%; height:15%; ">
+        </div>
+        
+        <div>
+            <div class="splash_nav">
+                <button id="login" onclick="myFunc()">Sign Up With Twitter</button>
+                <button id="login" onclick="myFunc()">Log In With Twitter</button>
+            </div>
+        </div>
+    </body>
+</html>
+
+<script>
+    function myFunc() {
+        window.location.href = "{{ url_for('oauth_authorize', provider='twitter') }}"
+    }
+</script>

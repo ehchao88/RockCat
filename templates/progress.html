@@ -2,7 +2,7 @@
 <html>
 <title>Progress</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="progress.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='progress.css') }}">
 <link href="https://fonts.googleapis.com/css2?family=Chicle" rel="stylesheet">
 
 
@@ -19,7 +19,7 @@
         </div>
     <div id = "pics">
     <!-- End Of Container -->
-        <img src="cat.png" style="width:50%; height:auto; text-align: center;">    
+        <img src="{{ url_for('static', filename='rock.png') }}" style="width:50%; height:auto; text-align: center;">    
         <!--  Button  -->
         <h3> Day X: Did you complete your exercise today? </h3>
         <button class="btn" type="button" id="btn">Yessir</button> 
@@ -32,9 +32,26 @@
 var bar = document.getElementById('bar');
 var txt = document.getElementById('text');
 var count = 0;
+bar.style.width = {{ num_days_work }} / {{ num_days_set }}*100 + '%';
+  txt.innerHTML = {{ num_days_work }} / {{ num_days_set }}*100 + '%';
+  /*
+  if(count === 10){
+    count = 0;  
+  }
+  else {
+      count = count + 10;
+  }*/
 // Listen for an event on the button
 // Increase the width of the bar by 10 percent(10%)
+
 btn.addEventListener('click', ()=>{
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+    };
+    xhr.open('POST', '/point', true);
+    xhr.send(null);
+    window.location.href="/"
+    /*
   bar.style.width = count + '%';
   txt.innerHTML = count + '%';
   if(count === 100){
@@ -42,7 +59,7 @@ btn.addEventListener('click', ()=>{
   }
   else {
       count = count + 10;
-  }
+  }*/
 });
 
 </script>
