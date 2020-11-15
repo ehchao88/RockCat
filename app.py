@@ -12,7 +12,8 @@ app.config['SECRET_KEY'] = 'top secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['OAUTH_CREDENTIALS'] = {
     'twitter': {
-        
+        'id': 'Zj2IgPStSbvCFqlCoB3XiW6Ww',
+        'secret': '1LdMorYlIouxOyClWbyXZkKGN8P2rULTk1p26h2dN1yR79T1IJ'
     }
 }
 
@@ -27,7 +28,7 @@ class User(UserMixin, db.Model):
     social_id = db.Column(db.String(64), nullable=False, unique=True)
     nickname = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(64), nullable=True)
-    score = db.Column(db.Integer())
+    score = db.Column(db.Integer(), default=0)
     tf = db.Column(db.Boolean())
     num_days_set = db.Column(db.Integer())
     num_days_work = db.Column(db.Integer())
@@ -43,10 +44,17 @@ def load_user(id):
 def index():
     return render_template('index.html')
 
+
+#route for incrementing your points
 @app.route('/point', methods=['POST'])
 def add_point():
     if current_user.is_authenticated:
-        load
+        user_id = current_user.get_id()
+        user = User.query.filter_by(id=user_id).first()
+        user.score = User.score + 1
+        print(user.score)
+        db.session.commit()
+    return redirect('/')
 
 @app.route('/logout')
 def logout():
